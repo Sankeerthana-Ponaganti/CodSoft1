@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="{% static 'calculator.png' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: white;
+        }
+
+        .calculator-container {
+            max-width: 300px;
+            background-color: #fff;
+            padding: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input {
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 200px; /* Adjust the width as needed */
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        cursor: pointer;
+    }
+        .result {
+            margin-top: 20px;
+            background-color: #009999;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <h1><center>CALCULATOR</center></h1>
+    <div class="calculator-container">
+        <form id="calculator-form">
+            {% csrf_token %}
+            <input type="text" name="display" id="display" placeholder="enter numbers" readonly>
+
+            <div class="row">
+                <button type="button" onclick="appendToDisplay('7')">7</button>
+                <button type="button" onclick="appendToDisplay('8')">8</button>
+                <button type="button" onclick="appendToDisplay('9')">9</button>
+            </div>
+
+            <div class="row">
+                <button type="button" onclick="appendToDisplay('4')">4</button>
+                <button type="button" onclick="appendToDisplay('5')">5</button>
+                <button type="button" onclick="appendToDisplay('6')">6</button>
+            </div>
+
+            <div class="row">
+                <button type="button" onclick="appendToDisplay('1')">1</button>
+                <button type="button" onclick="appendToDisplay('2')">2</button>
+                <button type="button" onclick="appendToDisplay('3')">3</button>
+            </div>
+
+            <div class="row">
+                <button type="button" onclick="appendToDisplay('0')">0</button>
+                <button type="button" onclick="clearDisplay()">C</button>
+                <button type="button" onclick="calculate()">=</button>
+            </div>
+
+            <div class="row">
+                <button type="button" onclick="appendToDisplay('+')">+</button>
+                <button type="button" onclick="appendToDisplay('-')">-</button>
+                <button type="button" onclick="appendToDisplay('*')">*</button>
+                <button type="button" onclick="appendToDisplay('/')">/</button>
+            </div>
+        </form>
+
+        <div class="result" id="result">
+            <p> </p>
+        </div>
+    </div>
+
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                const result = eval(document.getElementById('display').value);
+                document.getElementById('result').innerHTML = `<p>Result: ${result}</p>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>Error: Invalid expression</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
